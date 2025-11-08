@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-16">
+    <header class="text-center mb-12">
+        <h1 class="text-5xl font-extrabold text-indigo-800 mb-4">Get in Touch</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Whether you are an MSME, a financial institution, or a partner, we'd love to hear from you.
+        </p>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        
+        <div class="bg-white rounded-xl shadow-xl p-8 border-t-4 border-indigo-600">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4">Contact Information</h2>
+            <p class="text-gray-700 mb-6">Reach out to our support team or our business development team.</p>
+
+            <ul class="space-y-4 text-lg">
+                <li class="flex items-center">
+                    <span class="text-indigo-500 mr-3">📧</span>
+                    <strong class="text-gray-800">Email:</strong> <a href="mailto:support@finbyte.com" class="text-blue-500 hover:underline">support@finbyte.com</a>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-indigo-500 mr-3">📞</span>
+                    <strong class="text-gray-800">Phone:</strong> +91 98765 43210
+                </li>
+                <li class="flex items-start">
+                    <span class="text-indigo-500 mr-3 mt-1">📍</span>
+                    <span class="text-gray-800">
+                        <strong>Office:</strong> Finbyte Headquarters,<br>
+                        KIT's College of Engineering,<br>
+                        Kolhapur, Maharashtra, India - 416008
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-xl p-8 border-t-4 border-indigo-600">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">Send Us a Message</h2>
+            
+            <form action="/contact" method="POST" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" required
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                    <textarea id="message" name="message" rows="4" required
+                              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+                <div>
+                    <button type="submit"
+                            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-indigo-700 transition">
+                        Submit Inquiry
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

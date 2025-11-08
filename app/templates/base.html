@@ -11,7 +11,6 @@
 
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
 
-  <!-- Navbar -->
   <nav class="bg-white shadow-md py-4">
     <div class="container mx-auto flex justify-between items-center px-6">
       <a href="/" class="text-2xl font-bold"><span class="text-blue-600">Fin</span><span class="text-black-700">byte</span></a>
@@ -20,7 +19,8 @@
         <a href="/" class="text-gray-700 hover:text-indigo-700 font-medium">Home</a>
         <a href="/predict" class="text-gray-700 hover:text-indigo-700 font-medium">Predict</a>
         <a href="/dashboard" class="text-gray-700 hover:text-indigo-700 font-medium">Dashboard</a>
-
+        <a href="/about" class="text-gray-700 hover:text-indigo-700 font-medium">About</a>
+        <a href="/contact" class="text-gray-700 hover:text-indigo-700 font-medium">Contact</a>
         {% if current_user.is_authenticated %}
           <form action="{{ url_for('logout') }}" method="get" class="inline">
             <button type="submit"
@@ -40,7 +40,6 @@
     </div>
   </nav>
 
-  <!-- Flash messages -->
   <div class="container mx-auto px-6 mt-4">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -53,15 +52,44 @@
     {% endwith %}
   </div>
 
-  <!-- Main content -->
   <main class="flex-grow fade-in">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-white text-center py-4 text-gray-500 text-sm mt-8">
-    © 2025 Finbyte | Built with Flask & Tailwind CSS
-  </footer>
+  <footer class="bg-gray-800 text-white mt-12 py-10 shadow-inner">
+    <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+      
+      <div>
+        <h3 class="text-xl font-bold text-indigo-400 mb-4">Finbyte</h3>
+        <p class="text-gray-400 text-sm">
+          Empowering small and rural businesses through fair, data-driven credit access. 
+          We use alternative data to promote financial inclusion and growth.
+        </p>
+      </div>
 
-</body>
+      <div>
+        <h3 class="text-lg font-semibold mb-4 border-b border-indigo-500 inline-block pb-1">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a href="/" class="text-gray-400 hover:text-indigo-400 transition">Home</a></li>
+          <li><a href="/predict" class="text-gray-400 hover:text-indigo-400 transition">Predict Score</a></li>
+          <li><a href="/dashboard" class="text-gray-400 hover:text-indigo-400 transition">Dashboard</a></li>
+          <li><a href="/about" class="text-gray-400 hover:text-indigo-400 transition">About Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-4 border-b border-indigo-500 inline-block pb-1">Contact & Tech</h3>
+        <p class="text-gray-400 space-y-2">
+          <span class="block">📧 Email: support@finbyte.com</span>
+          <span class="block">📞Phone: +91 98765 43210</span>
+          <span class="block mt-4 text-sm text-gray-500">Built with Flask, Tailwind CSS & Python</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-700 mt-8 pt-4 text-center">
+      <p class="text-gray-500 text-sm">© 2025 Finbyte. All rights reserved.</p>
+    </div>
+  </footer>
+  </body>
 </html>

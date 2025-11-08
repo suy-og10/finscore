@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-16">
+    <header class="text-center mb-12">
+        <h1 class="text-5xl font-extrabold text-indigo-800 mb-4">About Finbyte</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Democratizing credit access for MSMEs using innovation, data, and a commitment to financial inclusion.
+        </p>
+    </header>
+
+    <section class="bg-white rounded-xl shadow-2xl p-10 mb-16">
+        <h2 class="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">Our Mission</h2>
+        <p class="text-lg text-gray-700 leading-relaxed">
+            In many rural and semi-urban areas, Micro, Small, and Medium Enterprises (MSMEs) are the backbone of the economy, yet they are often overlooked by traditional financial institutions due to a lack of formal credit history. 
+            **Finbyte exists to bridge this gap.** We utilize alternative data sources—like utility payments, mobile top-ups, and digital transaction patterns—to create an accurate, fair, and inclusive credit score where conventional models fail. Our goal is to empower these small businesses to grow, create jobs, and stabilize their communities.
+        </p>
+    </section>
+
+    <section class="mb-16">
+        <h2 class="text-3xl font-bold text-indigo-700 text-center mb-8">The Finbyte Advantage</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-500 transform hover:translate-y-[-5px] transition duration-300">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Alternative Data</h3>
+                <p class="text-gray-600">We analyze non-traditional datasets to provide a score, ensuring MSMEs without bank records can still access capital.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-green-500 transform hover:translate-y-[-5px] transition duration-300">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">High Accuracy Model</h3>
+                <p class="text-gray-600">Our machine learning model is trained on diverse regional data, providing credit risk predictions with high confidence.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-indigo-500 transform hover:translate-y-[-5px] transition duration-300">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Financial Inclusion</h3>
+                <p class="text-gray-600">Every score we generate pushes the boundary of who can participate in the formal economy.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="text-center">
+        <h2 class="text-3xl font-bold text-indigo-700 mb-8">Meet the Innovators</h2>
+        <p class="text-gray-600">While we don't list names here, our team consists of data scientists, financial experts, and community developers dedicated to fair credit access.</p>
+    </section>
+
+</div>
+{% endblock %}

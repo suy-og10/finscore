@@ -66,6 +66,17 @@ def load_user(user_id):
 def home():
     return render_template('home.html')
 
+@app.route('/about')
+def about():
+    """Renders the About Us page."""
+    return render_template('about.html', title='About Us')
+
+@app.route('/contact')
+def contact():
+    """Renders the Contact page."""
+    # Note: For a real app, this route would also need POST method handling for the form
+    return render_template('contact.html', title='Contact')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
