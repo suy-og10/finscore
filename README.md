@@ -1,6 +1,6 @@
-# 🏦 **Finbyte — Alternative Credit Scoring for MSMEs**
+# 🏦 **FinScore — Alternative Credit Scoring for MSMEs**
 
-Finbyte is a **fintech web application** that predicts the **creditworthiness** of micro, small, and medium enterprises (MSMEs) using **non-traditional financial data** such as digital transactions, utility bills, and mobile recharge patterns.
+FinScore is a **fintech web application** that predicts the **creditworthiness** of micro, small, and medium enterprises (MSMEs) using **non-traditional financial data** such as digital transactions, utility bills, and mobile recharge patterns.
 
 The goal is to enable **fair credit access** for rural and small business owners who lack formal credit histories.
 
@@ -16,8 +16,8 @@ Dynamic half-gauge chart shows credit score (0–100) with color-coded indicator
 
 ✅ **User & Admin Login System**
 
-- Regular users: Can predict scores.
-- Admin: Access to analytics dashboard.
+* Regular users: Can predict scores.
+* Admin: Access to analytics dashboard.
 
 ✅ **Interactive Dashboard**
 Real-time feature importance and prediction distribution charts built with Chart.js.
@@ -46,13 +46,11 @@ Fully responsive and modern interface for a polished fintech look.
 ## 📁 **Project Structure**
 
 ```
-Finbyte/
+FinScore/
 │
-├── scripts/
-│   ├── generate_dataset.py         # Generate synthetic dataset (data/credit_dataset.csv)
-│   └── train_model.py              # Train pipeline and write model/credit_pipeline.joblib + feature_importance.json
 ├── model/
-│   ├── credit_pipeline.joblib      # Saved preprocessing+model pipeline
+│   ├── train_model.py              # Generates credit_model.pkl and feature_importance.json
+│   ├── credit_model.pkl            # Trained ML model
 │   └── feature_importance.json     # Feature weights for dashboard
 │
 ├── app/
@@ -78,8 +76,8 @@ Finbyte/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/Finbyte.git
-cd Finbyte
+git clone https://github.com/<your-username>/FinScore.git
+cd FinScore
 ```
 
 ### 2️⃣ Create and activate a virtual environment
@@ -104,18 +102,10 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Generate data and train the model (if not already done)
-
-1. (Optional) Generate a synthetic dataset:
+### 4️⃣ Train the model (if not already done)
 
 ```bash
-python scripts/generate_dataset.py --n 10000
-```
-
-2. Train the pipeline (reads `data/credit_dataset.csv` by default):
-
-```bash
-python scripts/train_model.py
+python model/train_model.py
 ```
 
 ### 5️⃣ Run the Flask app
@@ -160,7 +150,7 @@ Password: admin123
 
 | Page         | Description                               |
 | ------------ | ----------------------------------------- |
-| `/`          | Landing page introducing Finbyte          |
+| `/`          | Landing page introducing FinScore         |
 | `/register`  | Create a new user account                 |
 | `/login`     | Log into your account                     |
 | `/predict`   | Enter business data to get a credit score |
@@ -172,10 +162,10 @@ Password: admin123
 
 You can add screenshots after your app runs:
 
-- 🏠 Home Page
-- 🔐 Login Page
-- 📈 Prediction Page (Gauge Chart)
-- 🧾 Dashboard (Feature Importance + Summary)
+* 🏠 Home Page
+* 🔐 Login Page
+* 📈 Prediction Page (Gauge Chart)
+* 🧾 Dashboard (Feature Importance + Summary)
 
 ---
 
@@ -190,21 +180,21 @@ You can add screenshots after your app runs:
 | Payment Delay (Days)       | `2`           |
 
 **Predicted Output:**
-✅ _Creditworthiness: Good (Score 85–100)_
+✅ *Creditworthiness: Good (Score 85–100)*
 
 ---
 
 ## 🤩 **Model Summary**
 
-- Algorithm: **RandomForestClassifier**
-- Data: **Synthetic behavioral dataset**
-- Features:
+* Algorithm: **RandomForestClassifier**
+* Data: **Synthetic behavioral dataset**
+* Features:
 
-  - Monthly electricity bill
-  - Mobile recharge frequency
-  - Digital transaction count
-  - Average transaction amount
-  - Payment delay days
+  * Monthly electricity bill
+  * Mobile recharge frequency
+  * Digital transaction count
+  * Average transaction amount
+  * Payment delay days
 
 Average model accuracy: **96.6%**
 
@@ -212,17 +202,17 @@ Average model accuracy: **96.6%**
 
 ## 🚀 **Future Improvements**
 
-- Integrate **real MSME datasets or APIs**
-- Add **credit report PDF generation**
-- Add **loan recommendation engine**
-- Integrate **SHAP explainability** for transparency
-- Deploy using **Render / Railway / Heroku**
+* Integrate **real MSME datasets or APIs**
+* Add **credit report PDF generation**
+* Add **loan recommendation engine**
+* Integrate **SHAP explainability** for transparency
+* Deploy using **Render / Railway / Heroku**
 
 ---
 
 ## 👨‍💻 **Developed By**
 
-**Project Name:** Finbyte
+**Project Name:** FinScore
 **Developed by:** Suyog and Team
 **Tech Domain:** Fintech | Machine Learning | Web Development
 
