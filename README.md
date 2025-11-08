@@ -1,6 +1,6 @@
-# 🏦 **FinScore — Alternative Credit Scoring for MSMEs**
+# 🏦 **Finbyte — Alternative Credit Scoring for MSMEs**
 
-FinScore is a **fintech web application** that predicts the **creditworthiness** of micro, small, and medium enterprises (MSMEs) using **non-traditional financial data** such as digital transactions, utility bills, and mobile recharge patterns.
+Finbyte is a **fintech web application** that predicts the **creditworthiness** of micro, small, and medium enterprises (MSMEs) using **non-traditional financial data** such as digital transactions, utility bills, and mobile recharge patterns.
 
 The goal is to enable **fair credit access** for rural and small business owners who lack formal credit histories.
 
@@ -46,11 +46,13 @@ Fully responsive and modern interface for a polished fintech look.
 ## 📁 **Project Structure**
 
 ```
-FinScore/
+Finbyte/
 │
+├── scripts/
+│   ├── generate_dataset.py         # Generate synthetic dataset (data/credit_dataset.csv)
+│   └── train_model.py              # Train pipeline and write model/credit_pipeline.joblib + feature_importance.json
 ├── model/
-│   ├── train_model.py              # Generates credit_model.pkl and feature_importance.json
-│   ├── credit_model.pkl            # Trained ML model
+│   ├── credit_pipeline.joblib      # Saved preprocessing+model pipeline
 │   └── feature_importance.json     # Feature weights for dashboard
 │
 ├── app/
@@ -76,8 +78,8 @@ FinScore/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/FinScore.git
-cd FinScore
+git clone https://github.com/<your-username>/Finbyte.git
+cd Finbyte
 ```
 
 ### 2️⃣ Create and activate a virtual environment
@@ -102,10 +104,18 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Train the model (if not already done)
+### 4️⃣ Generate data and train the model (if not already done)
+
+1. (Optional) Generate a synthetic dataset:
 
 ```bash
-python model/train_model.py
+python scripts/generate_dataset.py --n 10000
+```
+
+2. Train the pipeline (reads `data/credit_dataset.csv` by default):
+
+```bash
+python scripts/train_model.py
 ```
 
 ### 5️⃣ Run the Flask app
@@ -150,7 +160,7 @@ Password: admin123
 
 | Page         | Description                               |
 | ------------ | ----------------------------------------- |
-| `/`          | Landing page introducing FinScore         |
+| `/`          | Landing page introducing Finbyte          |
 | `/register`  | Create a new user account                 |
 | `/login`     | Log into your account                     |
 | `/predict`   | Enter business data to get a credit score |
@@ -212,7 +222,7 @@ Average model accuracy: **96.6%**
 
 ## 👨‍💻 **Developed By**
 
-**Project Name:** FinScore
+**Project Name:** Finbyte
 **Developed by:** Suyog and Team
 **Tech Domain:** Fintech | Machine Learning | Web Development
 

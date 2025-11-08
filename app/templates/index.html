@@ -4,24 +4,71 @@
   <div class="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-lg text-center">
     <h1 class="text-3xl font-bold text-indigo-700 mb-3">Credit Scoring Prediction</h1>
     <form action="/predict" method="post" class="space-y-4">
-      <input type="number" name="monthly_electricity_bill" placeholder="Monthly Electricity Bill" required
-             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-      <input type="number" name="mobile_recharge_freq" placeholder="Mobile Recharge Frequency" required
-             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-      <input type="number" name="digital_txn_count" placeholder="Digital Transaction Count" required
-             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-      <input type="number" name="avg_txn_amount" placeholder="Average Transaction Amount" required
-             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-      <input type="number" name="payment_delay_days" placeholder="Payment Delay (Days)" required
-             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <label class="block text-left font-medium">Business Segment</label>
+      <select name="segment" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+   <option value="kirana">Kirana</option>
+   <option value="tailor">Tailor</option>
+   <option value="mechanic">Mechanic</option>
+   <option value="pharmacy">Pharmacy</option>
+   <option value="salon">Salon</option>
+   <option value="restaurant">Restaurant</option>
+      </select>
+
+      <label class="block text-left font-medium">Electricity on-time ratio (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="elec_on_time_ratio" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Recharge on-time ratio (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="recharge_on_time_ratio" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Invoice paid on-time ratio (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="invoice_paid_on_time_ratio" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Supplier on-time ratio (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="supplier_on_time_ratio" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Business days open ratio (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="business_days_open_ratio" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Monthly UPI incoming count</label>
+      <input type="number" step="1" min="0" name="monthly_upi_in_count" placeholder="e.g. 30" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Monthly UPI incoming amount (INR)</label>
+      <input type="number" step="0.01" min="0" name="monthly_upi_in_amt" placeholder="e.g. 50000" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Years in business</label>
+      <input type="number" step="0.1" min="0" name="years_in_business" placeholder="e.g. 3.5" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Delivery cancellations (count)</label>
+      <input type="number" step="1" min="0" name="delivery_cancellations" placeholder="e.g. 1" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Average balance (INR)</label>
+      <input type="number" step="0.01" min="0" name="avg_balance" placeholder="e.g. 20000" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Min balance frequency (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="min_balance_freq" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+
+      <label class="block text-left font-medium">Monthly revenue variance (0-1)</label>
+      <input type="number" step="0.01" min="0" max="1" name="monthly_revenue_variance" placeholder="0.0 - 1.0" required
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
       <button type="submit"
               class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200">
         Predict Creditworthiness
       </button>
     </form>
 
-    {% if prediction_text %}
-    <div class="mt-10 p-6 rounded-xl {{ 'bg-green-100 text-green-800' if prediction_text == 'Good' else 'bg-yellow-100 text-yellow-800' if prediction_text == 'Average' else 'bg-red-100 text-red-800' }}">
+    {% if score is not none %}
+    <div class="mt-10 p-6 rounded-xl {% if score >= 80 %}bg-green-100 text-green-800{% elif score >= 60 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
       <h2 class="text-2xl font-semibold">Predicted Creditworthiness:</h2>
       <p class="text-3xl font-bold mt-2">{{ prediction_text }}</p>
     </div>
@@ -31,7 +78,7 @@
     <script>
       const ctx = document.getElementById('creditGauge').getContext('2d');
       const score = {{ score }};
-      const color = score > 80 ? '#22c55e' : score > 50 ? '#eab308' : '#ef4444';
+      const color = score >= 80 ? '#22c55e' : score >= 60 ? '#eab308' : '#ef4444';
       new Chart(ctx, {
         type: 'doughnut',
         data: { datasets: [{ data: [score, 100 - score], backgroundColor: [color, '#e5e7eb'], borderWidth: 0, cutout: '80%' }] },

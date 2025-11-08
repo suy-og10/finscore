@@ -32,7 +32,9 @@
 </div>
 
 <script>
-  const features = {{ importance|tojson }};
+  // feature_importance.json may contain { feature_importance: {...}, accuracy: x }
+  const raw = {{ importance|tojson }};
+  const features = raw.feature_importance ? raw.feature_importance : raw;
   const labels = Object.keys(features);
   const values = Object.values(features);
   new Chart(document.getElementById('featureChart'), { type: 'bar', data: { labels, datasets: [{ label: 'Importance', data: values, backgroundColor: '#6366f1' }] } });

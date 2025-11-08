@@ -1,7 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-import pickle, numpy as np, json, random, os
+import numpy as np, json, random, os, sys
+
+# Import model helpers. Use relative import when running as a package, fall back to a local import
+try:
+    from .model import load_pipeline, predict_one
+except Exception:
+    # When running `python app.py` from the app/ folder, the package context is missing.
+    # Add the current directory to sys.path so `import model` succeeds.
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from model import load_pipeline, predict_one
 
 app = Flask(__name__)
 app.secret_key = 'fintech-secret-key'
@@ -14,10 +23,21 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 # ------------------ Load Model ------------------
-model = pickle.load(open('../model/credit_model.pkl', 'rb'))
-with open('../model/feature_importance.json', 'r') as f:
-    feature_importance = json.load(f)
-MODEL_ACCURACY = 96.67
+try:
+    pipeline = load_pipeline()
+    fi_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model', 'feature_importance.json'))
+    if os.path.exists(fi_path):
+        with open(fi_path, 'r') as f:
+            feature_importance = json.load(f)
+        MODEL_ACCURACY = feature_importance.get('accuracy', 0)
+    else:
+        feature_importance = {}
+        MODEL_ACCURACY = 0
+except Exception as e:
+    # If model isn't available, keep app running but predictions will error
+    pipeline = None
+    feature_importance = {}
+    MODEL_ACCURACY = 0
 
 # ------------------ Database Models ------------------
 class User(UserMixin, db.Model):
@@ -89,23 +109,45 @@ def predict():
         return render_template('index.html', prediction_text=None, score=None, accuracy=MODEL_ACCURACY)
 
     try:
-        features = [float(x) for x in request.form.values()]
-        final_features = [np.array(features)]
-        prediction = model.predict(final_features)[0]
+        if pipeline is None:
+            raise RuntimeError('Model pipeline not loaded')
 
-        if prediction == 1:
-            label, score = "Good", random.randint(80, 100)
-        elif prediction == 0:
-            label, score = "Average", random.randint(50, 79)
+        # Expected input fields (names) for the model
+        expected = ['segment', 'elec_on_time_ratio', 'recharge_on_time_ratio', 'invoice_paid_on_time_ratio',
+                    'supplier_on_time_ratio', 'business_days_open_ratio', 'monthly_upi_in_count',
+                    'monthly_upi_in_amt', 'years_in_business', 'delivery_cancellations', 'avg_balance',
+                    'min_balance_freq', 'monthly_revenue_variance']
+
+        # Support JSON POST or form POST
+        if request.is_json:
+            data = request.get_json()
         else:
-            label, score = "Poor", random.randint(20, 49)
+            data = {k: request.form.get(k) for k in expected}
 
-        # Save prediction to DB
-        new_pred = Prediction(user_id=current_user.id, score=score, label=label, features=str(features))
+        # Convert types where needed
+        parsed = {}
+        for k in expected:
+            v = data.get(k)
+            if v is None:
+                raise ValueError(f'Missing feature: {k}')
+            # segment stays as string; numeric fields convert to float/int appropriately
+            if k in ['monthly_upi_in_count', 'delivery_cancellations']:
+                parsed[k] = int(v)
+            elif k in ['segment']:
+                parsed[k] = str(v)
+            else:
+                parsed[k] = float(v)
+
+        result = predict_one(pipeline, parsed)
+
+        # Save prediction to DB (store legacy quality label to keep dashboard working)
+        new_pred = Prediction(user_id=current_user.id, score=int(result['score']), label=result['quality'], features=str(parsed))
         db.session.add(new_pred)
         db.session.commit()
 
-        return render_template('index.html', prediction_text=label, score=score, accuracy=MODEL_ACCURACY)
+        # Show both quality and band
+        prediction_text = f"{result['quality']} ({result['band']})"
+        return render_template('index.html', prediction_text=prediction_text, score=result['score'], accuracy=MODEL_ACCURACY)
     except Exception as e:
         return render_template('index.html', prediction_text=f"Error: {str(e)}", score=None, accuracy=MODEL_ACCURACY)
 

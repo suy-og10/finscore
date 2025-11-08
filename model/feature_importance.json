@@ -1,1 +1,23 @@
-{"monthly_electricity_bill": 0.20811487489334551, "mobile_recharge_freq": 0.21549987668757395, "digital_txn_count": 0.20736947137204406, "avg_txn_amount": 0.21553315059328038, "payment_delay_days": 0.15348262645375615}
+{
+  "feature_importance": {
+    "segment_kirana": 0.0022021844310497036,
+    "segment_mechanic": 0.008481787715701366,
+    "segment_pharmacy": 0.00510582210794769,
+    "segment_restaurant": 0.02051905442545185,
+    "segment_salon": 0.0008497461348386751,
+    "segment_tailor": 0.011787420117173649,
+    "elec_on_time_ratio": 0.06806101278815806,
+    "recharge_on_time_ratio": 0.11756192021414691,
+    "invoice_paid_on_time_ratio": 0.078157175636617,
+    "supplier_on_time_ratio": 0.11203953452998514,
+    "business_days_open_ratio": 0.0877851007754938,
+    "monthly_upi_in_count": 0.040431588611055023,
+    "monthly_upi_in_amt": 0.07280856695225046,
+    "years_in_business": 0.06472151540605868,
+    "delivery_cancellations": 0.018166171862001142,
+    "avg_balance": 0.0569346106032241,
+    "min_balance_freq": 0.10627960519186092,
+    "monthly_revenue_variance": 0.12810718249698586
+  },
+  "accuracy": 0.995
+}
