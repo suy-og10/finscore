@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-center py-10">
+  <div class="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-lg text-center">
+    <h1 class="text-3xl font-bold text-indigo-700 mb-3">Credit Scoring Prediction</h1>
+    <form action="/predict" method="post" class="space-y-4">
+      <input type="number" name="monthly_electricity_bill" placeholder="Monthly Electricity Bill" required
+             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <input type="number" name="mobile_recharge_freq" placeholder="Mobile Recharge Frequency" required
+             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <input type="number" name="digital_txn_count" placeholder="Digital Transaction Count" required
+             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <input type="number" name="avg_txn_amount" placeholder="Average Transaction Amount" required
+             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <input type="number" name="payment_delay_days" placeholder="Payment Delay (Days)" required
+             class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+      <button type="submit"
+              class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200">
+        Predict Creditworthiness
+      </button>
+    </form>
+
+    {% if prediction_text %}
+    <div class="mt-10 p-6 rounded-xl {{ 'bg-green-100 text-green-800' if prediction_text == 'Good' else 'bg-yellow-100 text-yellow-800' if prediction_text == 'Average' else 'bg-red-100 text-red-800' }}">
+      <h2 class="text-2xl font-semibold">Predicted Creditworthiness:</h2>
+      <p class="text-3xl font-bold mt-2">{{ prediction_text }}</p>
+    </div>
+    <div class="mt-8">
+      <canvas id="creditGauge" width="300" height="180"></canvas>
+    </div>
+    <script>
+      const ctx = document.getElementById('creditGauge').getContext('2d');
+      const score = {{ score }};
+      const color = score > 80 ? '#22c55e' : score > 50 ? '#eab308' : '#ef4444';
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: { datasets: [{ data: [score, 100 - score], backgroundColor: [color, '#e5e7eb'], borderWidth: 0, cutout: '80%' }] },
+        options: { rotation: -90, circumference: 180, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+      });
+      const gaugeText = document.createElement('div');
+      gaugeText.textContent = score + '/100';
+      gaugeText.style.position = 'relative'; gaugeText.style.top = '-110px';
+      gaugeText.style.fontSize = '1.5rem'; gaugeText.style.fontWeight = 'bold'; gaugeText.style.color = color;
+      document.getElementById('creditGauge').parentElement.appendChild(gaugeText);
+    </script>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

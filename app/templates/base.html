@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or "Fintech Credit Scoring" }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md py-4">
+    <div class="container mx-auto flex justify-between items-center px-6">
+      <a href="/" class="text-2xl font-bold text-indigo-700">FinScore</a>
+      <div class="space-x-6">
+        <a href="/" class="text-gray-700 hover:text-indigo-700 font-medium">Home</a>
+        <a href="/predict" class="text-gray-700 hover:text-indigo-700 font-medium">Predict</a>
+        <a href="/dashboard" class="text-gray-700 hover:text-indigo-700 font-medium">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white text-center py-4 text-gray-500 text-sm mt-8">
+    &copy; 2025 FinScore | Built with Flask & Tailwind
+  </footer>
+
+</body>
+</html>
